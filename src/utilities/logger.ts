@@ -1,12 +1,12 @@
-import express from 'express';
+import express from "express";
 const logger = (
-    req: express.Request, 
-    res: express.Response, 
-    next: Function
+  req: express.Request,
+  res: express.Response,
+  next: Function
 ): void => {
-    let url = req.url;
-    console.log(`${url} has visited`);
-    next();
+  let url = req.url;
+  console.log(`${url} has visited`);
+  next();
 };
 
 export default logger;
