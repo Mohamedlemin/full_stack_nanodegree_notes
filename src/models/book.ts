@@ -4,18 +4,20 @@ export type Book = {
    id?: string;
    title: string;
    author: string;
-   totalPages: number;
+   total_pages: number;
    summary: string;
 }
 
 export class BookStore {
+
 async index(): Promise<Book[]> {
   try {
     // @ts-ignore
-    const conn = await Client.connect()
+    const conn = await client.connect()
     const sql = 'SELECT * FROM books'
 
     const result = await conn.query(sql)
+    console.log
 
     conn.release()
 
@@ -29,7 +31,7 @@ async show(id: string): Promise<Book> {
   try {
   const sql = 'SELECT * FROM books WHERE id=($1)'
   // @ts-ignore
-  const conn = await Client.connect()
+  const conn = await client.connect()
 
   const result = await conn.query(sql, [id])
 
@@ -45,10 +47,10 @@ async create(b: Book): Promise<Book> {
     try {
   const sql = 'INSERT INTO books (title, author, total_pages, summary) VALUES($1, $2, $3, $4) RETURNING *'
   // @ts-ignore
-  const conn = await Client.connect()
+  const conn = await client.connect()
 
   const result = await conn
-      .query(sql, [b.title, b.author, b.totalPages, b.summary])
+      .query(sql, [b.title, b.author, b.total_pages, b.summary])
 
   const book = result.rows[0]
 
@@ -64,7 +66,7 @@ async delete(id: string): Promise<Book> {
     try {
   const sql = 'DELETE FROM books WHERE id=($1)'
   // @ts-ignore
-  const conn = await Client.connect()
+  const conn = await client.connect()
 
   const result = await conn.query(sql, [id])
 
@@ -77,4 +79,5 @@ async delete(id: string): Promise<Book> {
         throw new Error(`Could not delete book ${id}. Error: ${err}`)
     }
 }
+
 }
